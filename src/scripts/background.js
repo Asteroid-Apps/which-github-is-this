@@ -10,3 +10,6 @@ ext.runtime.onMessage.addListener(
     }
   }
 );
+
+
+  chrome.tabs.sendMessage(activeTab.id, { action: 'process-page' }, renderBookmark);

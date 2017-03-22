@@ -1,11 +1,11 @@
-import fs from "fs";
-import gulp from 'gulp';
-import {merge} from 'event-stream'
-import browserify from 'browserify';
-import source from 'vinyl-source-stream';
-import buffer from 'vinyl-buffer';
-import preprocessify from 'preprocessify';
-import gulpif from "gulp-if";
+const fs = require("fs");
+const gulp = require('gulp');
+const {merge} = require('event-stream');
+const browserify = require('browserify');
+const source = require('vinyl-source-stream');
+const buffer = require('vinyl-buffer');
+const preprocessify = require('preprocessify');
+const gulpif = require('gulp-if');
 
 const $ = require('gulp-load-plugins')();
 
@@ -101,7 +101,7 @@ gulp.task('dist', (cb) => {
 });
 
 gulp.task('zip', () => {
-  return pipe(`./build/${target}/**/*`, $.zip(`${target}.zip`), './dist')
+  return pipe(`/build/${target}/**/*`, $.zip(`${target}.zip`), './dist')
 })
 
 
@@ -147,11 +147,11 @@ function buildJS(target) {
     .pipe(buffer())
     .pipe(gulpif(!production, $.sourcemaps.init({ loadMaps: true }) ))
     .pipe(gulpif(!production, $.sourcemaps.write('./') ))
-    .pipe(gulpif(production, $.uglify({ 
+    .pipe(gulpif(production, $.uglify({
       "mangle": false,
       "output": {
         "ascii_only": true
-      } 
+      }
     })))
     .pipe(gulp.dest(`build/${target}/scripts`));
   });

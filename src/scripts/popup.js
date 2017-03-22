@@ -9,6 +9,8 @@ storage.get('color', function(resp) {
   }
 });
 
+
+
 var template = (data) => {
   var json = JSON.stringify(data);
   return (`
@@ -31,7 +33,7 @@ var renderBookmark = (data) => {
   var displayContainer = document.getElementById("display-container")
   if(data) {
     var tmpl = template(data);
-    displayContainer.innerHTML = tmpl;  
+    displayContainer.innerHTML = tmpl;
   } else {
     renderMessage("Sorry, could not extract this page's title and URL")
   }
@@ -39,7 +41,12 @@ var renderBookmark = (data) => {
 
 ext.tabs.query({active: true, currentWindow: true}, function(tabs) {
   var activeTab = tabs[0];
-  chrome.tabs.sendMessage(activeTab.id, { action: 'process-page' }, renderBookmark);
+  if(activeTab.url.indexOf('github.braintreeps.com')>-1) {
+    chrome.tabs.sendMessage(activeTab.id, { action: 'process-page', background: '#fff', foreground: '#1524D9'  }, renderBookmark);
+  }
+  else if(activeTab.url.indexOf('github.paypal.com')>-1) {
+    chrome.tabs.sendMessage(activeTab.id, { action: 'process-page', background: '#003087', foreground: '#fff'  }, renderBookmark);
+  }
 });
 
 popup.addEventListener("click", function(e) {
